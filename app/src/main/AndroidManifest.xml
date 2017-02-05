@@ -15,6 +15,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".database.RssProvider"
+            android:authorities="com.example.kraftu.rssreader"
+            android:exported="false" />
+
+        <service android:name=".TaskService"/>
     </application>
 
 </manifest>

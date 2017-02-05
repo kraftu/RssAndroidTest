@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">RssReader</string>
+    <string name="title_activity_list_post">ListPostActivity</string>
+    <string name="title_activity_channel_add">Add new url</string>
+    <string name="action_settings">Settings</string>
+    <string name="add_channel.error.name">Please enter a name</string>
+    <string name="add_channel.error.url">Please select the correct url</string>
+    <string name="title_activity_post">PostActivity</string>
 </resources>

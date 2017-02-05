@@ -35,17 +35,17 @@ public class DbContract {
 
     }
 
-    public static final String DEFAULT_SORT_RSS_SOURCE = String.format("%s ASC",
-            PostColumns.PUB_DATE);
+    public static final String DEFAULT_SORT_CHANNEL = String.format("%s ASC",
+            ChannelColumns.NAME);
 
-    public static final String DEFAULT_SORT_RSS_POST = String.format("%s DESC",
-            ChannelColumns.TITLE);
+    public static final String DEFAULT_SORT_POST = String.format("%s DESC",
+            ChannelColumns.PUB_DATE);
 
-    public static final Uri CONTENT_RSS_SOURCE_URI = new Uri.Builder().scheme("content")
+    public static final Uri CONTENT_CHANNEL_URI = new Uri.Builder().scheme("content")
             .authority(CONTENT_AUTHORITY)
             .appendPath(TABLE_CHANNELS).build();
 
-    public static final Uri CONTENT_RSS_POST_URI = new Uri.Builder().scheme("content")
+    public static final Uri CONTENT_POST_URI = new Uri.Builder().scheme("content")
             .authority(CONTENT_AUTHORITY)
             .appendPath(TABLE_POSTS).build();
 
@@ -58,5 +58,12 @@ public class DbContract {
     }
     public static long getColumnLong(Cursor cursor, String columnName) {
         return cursor.getLong( cursor.getColumnIndex(columnName) );
+    }
+
+    public static String getSelection(String name,String value){
+        return String.format("%s = %s",name,value);
+    }
+    public static String getSelection(String name,long value){
+        return getSelection(name,String.valueOf(value));
     }
 }

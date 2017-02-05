@@ -1,12 +1,9 @@
-package com.example.krafjufina.rssreader;
+package com.example.krafjufina.rssreader.tools;
 
 import android.util.Log;
 
 import com.example.krafjufina.rssreader.BuildConfig;
 
-/**
- * Created by Krafjufina on 05.02.2017.
- */
 
 public class RLog {
     public static boolean DEBUG = BuildConfig.DEBUG;

@@ -4,13 +4,13 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.krafjufina.rssreader.RLog;
+import com.example.krafjufina.rssreader.tools.RLog;
 
 public class RssDbHelper extends SQLiteOpenHelper {
     public static final String TAG = "RssDbHelper";
 
     private static final String DATABASE_NAME = "rssReader.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     private static final String SQL_CREATE_TABLE_CHANNEL = String.format("create table %s "
                     + "(%s integer primary key autoincrement, " + //ID

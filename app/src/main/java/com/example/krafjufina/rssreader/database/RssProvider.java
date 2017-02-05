@@ -10,11 +10,8 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.example.krafjufina.rssreader.RLog;
+import com.example.krafjufina.rssreader.tools.RLog;
 
-/**
- * Created by Krafjufina on 05.02.2017.
- */
 
 public class RssProvider extends ContentProvider {
     private static final String TAG = "RssProvider";
@@ -91,7 +88,7 @@ public class RssProvider extends ContentProvider {
 
         }
 
-        Cursor cursor = sqLiteDatabase.query(tableName,projection,selection,selectionArgs,sortOrder,null,null);
+        Cursor cursor = sqLiteDatabase.query(tableName,projection,selection,selectionArgs,null,null,sortOrder);
 
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
@@ -116,11 +113,11 @@ public class RssProvider extends ContentProvider {
         Uri baseUri = null;
         if(sUriMather.match(uri) == RSS_SOURCES){
             tableName = DbContract.TABLE_CHANNELS;
-            baseUri = DbContract.CONTENT_RSS_SOURCE_URI;
+            baseUri = DbContract.CONTENT_CHANNEL_URI;
 
         }else if(sUriMather.match(uri) == RSS_POSTS){
             tableName = DbContract.TABLE_POSTS;
-            baseUri = DbContract.CONTENT_RSS_POST_URI;
+            baseUri = DbContract.CONTENT_POST_URI;
         }else{
             throw new IllegalArgumentException("Illegal insert URI");
         }

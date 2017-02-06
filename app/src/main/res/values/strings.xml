@@ -6,4 +6,7 @@
     <string name="add_channel.error.name">Please enter a name</string>
     <string name="add_channel.error.url">Please select the correct url</string>
     <string name="title_activity_post">PostActivity</string>
+    <string name="add_channel.channel_name">Source name</string>
+    <string name="channel_add.feed_url">Feed url</string>
+    <string name="channel_add.title">Add new Rss feed</string>
 </resources>

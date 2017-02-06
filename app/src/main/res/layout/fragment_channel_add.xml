@@ -12,7 +12,7 @@
         android:layout_alignParentStart="true">
 
         <TextView
-            android:text="Add new Rss feed"
+            android:text="@string/channel_add.title"
             android:textStyle="bold"
             android:layout_margin="15dp"
             android:gravity="center_horizontal"
@@ -29,10 +29,9 @@
 
             <EditText
                     android:id="@+id/etName"
-                    android:hint="Source name"
+                    android:hint="@string/add_channel.channel_name"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                android:text="Habr" />
+                    android:layout_height="wrap_content"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -42,10 +41,9 @@
 
             <EditText
                 android:id="@+id/etUrl"
-                android:hint="Feed url"
+                android:hint="@string/channel_add.feed_url"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="https://habrahabr.ru/rss/interesting/" />
+                android:layout_height="wrap_content"/>
         </android.support.design.widget.TextInputLayout>
 
         <Button

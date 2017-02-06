@@ -4,9 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.krafjufina.rssreader.PostActivity">
+    android:layout_margin="10dp"
+    tools:context="com.example.krafjufina.rssreader.ui.PostActivity">
 
-    <WebView android:id="@+id/webView"
+    <TextView android:id="@+id/tvDescription"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

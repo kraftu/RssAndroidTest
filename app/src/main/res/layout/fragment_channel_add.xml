@@ -32,7 +32,7 @@
                     android:hint="Source name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                android:text="test" />
+                android:text="Habr" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout

@@ -1,5 +1,7 @@
-package com.example.krafjufina.rssreader;
+package com.example.krafjufina.rssreader.ui;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -17,8 +19,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 
+import com.example.krafjufina.rssreader.R;
 import com.example.krafjufina.rssreader.adapter.PostsAdapter;
 import com.example.krafjufina.rssreader.database.DbContract;
 import com.example.krafjufina.rssreader.model.Channel;
@@ -34,7 +38,7 @@ public class ListPostActivity extends AppCompatActivity implements LoaderManager
     public static final int LOAD_CHANNEL = 0;
     public static final int LOAD_POSTS = 1;
     public static final String BUNDLE_TITLE = "BUNDLE_TITLE";
-    public static final String BUNDLE_URL_IMAGE = "BUNDLE_IMAGE";
+
 
     private Channel mChannel;
     private boolean isInitChannel;
@@ -50,12 +54,16 @@ public class ListPostActivity extends AppCompatActivity implements LoaderManager
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_post);
+
+        mUriChannel = getIntent().getData();
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        String title = getIntent().getStringExtra(BUNDLE_TITLE);
+        if(!TextUtils.isEmpty(title))getSupportActionBar().setTitle(title);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.sRefreshLayout);
         mRecyclerView = (RecyclerView)findViewById(R.id.list);
-        mUriChannel = getIntent().getData();
+
 
         getSupportLoaderManager().initLoader(LOAD_CHANNEL,null,this);
 
@@ -71,9 +79,10 @@ public class ListPostActivity extends AppCompatActivity implements LoaderManager
         mPostsAdapter.setOnItemClickListener(this);
     }
 
-    public static void start(Context context, Uri uriChannel){
+    public static void start(Context context, Uri uriChannel,String title){
         Intent intent = new Intent(context, ListPostActivity.class);
         intent.setData(uriChannel);
+        intent.putExtra(BUNDLE_TITLE,title);
         context.startActivity(intent);
     }
 
@@ -110,12 +119,43 @@ public class ListPostActivity extends AppCompatActivity implements LoaderManager
         }else if(loader.getId() == LOAD_POSTS){
             if(mPostsAdapter != null) mPostsAdapter.swap(data);
             if(mLoadChannel == null && mPostsAdapter.getItemCount() == 0) autoLoad();
+            if(mRecyclerView.getVisibility() == View.INVISIBLE) showList();
         }
+    }
+
+    private void showList(){
+
+        ObjectAnimator animation = ObjectAnimator.ofFloat(mRecyclerView, "alpha", 0,1).
+                setDuration(700);
+        animation.setInterpolator(new DecelerateInterpolator());
+        animation.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                mRecyclerView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        animation.start();
+
     }
 
     private void setChannel(Channel channel){
         mChannel = channel;
-        getSupportActionBar().setTitle(TextUtils.isEmpty(mChannel.title)?mChannel.name:mChannel.title);
+        getSupportActionBar().setTitle(mChannel.name);
         if(!isInitChannel){
             isInitChannel = true;
             getSupportLoaderManager().initLoader(LOAD_POSTS,null,this);
@@ -148,7 +188,7 @@ public class ListPostActivity extends AppCompatActivity implements LoaderManager
     public void onItemClick(PostsAdapter postsAdapter, View v, int position) {
         Post post = postsAdapter.getItem(position);
         Uri uri = ContentUris.withAppendedId(DbContract.CONTENT_POST_URI,post.id);
-        PostActivity.start(this,uri);
+        PostActivity.start(this,uri,post.title);
     }
 
     public class LoadChannel extends RssParserTask {

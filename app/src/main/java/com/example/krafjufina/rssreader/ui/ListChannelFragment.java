@@ -1,4 +1,4 @@
-package com.example.krafjufina.rssreader;
+package com.example.krafjufina.rssreader.ui;
 
 import android.content.ContentUris;
 import android.database.Cursor;
@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.krafjufina.rssreader.R;
 import com.example.krafjufina.rssreader.adapter.ChannelsAdapter;
 import com.example.krafjufina.rssreader.database.DbContract;
 import com.example.krafjufina.rssreader.model.Channel;
@@ -100,6 +101,6 @@ public class ListChannelFragment extends Fragment implements View.OnClickListene
     public void onItemClick(ChannelsAdapter channelsAdapter, View v, int position) {
         Channel channel = channelsAdapter.getItem(position);
         Uri uri = ContentUris.withAppendedId(DbContract.CONTENT_CHANNEL_URI,channel.id);
-        ListPostActivity.start(getActivity(),uri);
+        ListPostActivity.start(getActivity(),uri,channel.name);
     }
 }

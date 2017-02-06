@@ -77,7 +77,7 @@ public class TaskService extends IntentService {
             performInsertChannel(values);
         } else if (ACTION_UPDATE_CHANNEL.equals(intent.getAction())) {
             ContentValues values = intent.getParcelableExtra(EXTRA_VALUES_CHANNEL);
-            performUpdateChannel(values);
+            performUpdateChannel(intent.getData(),values);
         } else if (ACTION_DELETE_CHANNEL.equals(intent.getAction())) {
 
         }else if (ACTION_INSERT_POST.equals(intent.getAction())) {
@@ -102,8 +102,8 @@ public class TaskService extends IntentService {
         return uri;
     }
 
-    private void performUpdateChannel(ContentValues values) {
-        int count = getContentResolver().update(DbContract.CONTENT_CHANNEL_URI, values,null,null);
+    private void performUpdateChannel(Uri uri,ContentValues values) {
+        int count = getContentResolver().update(uri, values,null,null);
         if (count > 0) {
             RLog.d(TAG, "Update new channel");
         } else {

@@ -2,9 +2,6 @@ package com.example.krafjufina.rssreader.adapter;
 
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +10,7 @@ import android.widget.TextView;
 import com.example.krafjufina.rssreader.tools.DataUntil;
 import com.example.krafjufina.rssreader.R;
 import com.example.krafjufina.rssreader.model.Post;
+import com.example.krafjufina.rssreader.tools.Http;
 
 /**
  * Created by Krafjufina on 05.02.2017.
@@ -68,7 +66,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
             mInfo.setText(String.format("%s / %s",
                     post.author,
                     DataUntil.getDateForAdapter(post.pubDate)));
-            mDescription.setText(fromHtml(post.description));
+            mDescription.setText(Http.fromHtml(mDescription,post.description));
             itemView.setOnClickListener(this);
         }
 
@@ -101,14 +99,4 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
         void onItemClick(PostsAdapter channelAdapter, View v, int position);
     }
 
-    @SuppressWarnings("deprecation")
-    public static Spanned fromHtml(String html){
-        Spanned result;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(html,Html.FROM_HTML_MODE_LEGACY);
-        } else {
-            result = Html.fromHtml(html);
-        }
-        return result;
-    }
 }

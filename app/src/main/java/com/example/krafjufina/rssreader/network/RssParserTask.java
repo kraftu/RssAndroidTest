@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import com.example.krafjufina.rssreader.tools.DataUntil;
 import com.example.krafjufina.rssreader.model.Channel;
 import com.example.krafjufina.rssreader.model.Post;
+import com.example.krafjufina.rssreader.tools.Http;
 import com.example.krafjufina.rssreader.tools.RLog;
 
 import org.jsoup.Jsoup;
@@ -79,9 +80,6 @@ abstract public class RssParserTask extends AsyncTask<String, Integer, String> {
         Post rssPost = new Post();
         rssPost.title = element.select("title").first().text();
         rssPost.description = element.select("description").first().text();
-        if(rssPost.description != null){
-            rssPost.description = rssPost.description.replaceAll("<img.+?>", "");
-        }
         rssPost.link = element.select("link").first().text();
         rssPost.author = element.select("dc|creator").first().text();
         String pubDate = "";
@@ -99,9 +97,7 @@ abstract public class RssParserTask extends AsyncTask<String, Integer, String> {
 
         channel.title = element.select("title").first().text();
         channel.description = element.select("description").first().text();
-        if(channel.description != null){
-            channel.description = channel.description.replaceAll("<img.+?>", "");
-        }
+
         channel.link = element.select("link").first().text();
 
         String imageUrl;

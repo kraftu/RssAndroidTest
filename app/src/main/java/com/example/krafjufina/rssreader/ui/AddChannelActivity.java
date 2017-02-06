@@ -1,4 +1,4 @@
-package com.example.krafjufina.rssreader;
+package com.example.krafjufina.rssreader.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,14 +10,17 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.krafjufina.rssreader.R;
 import com.example.krafjufina.rssreader.model.Channel;
 import com.example.krafjufina.rssreader.network.TaskService;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.regex.Pattern;
 
 public class AddChannelActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,7 +35,6 @@ public class AddChannelActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_channel_add);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setTitle(getString(R.string.title_activity_channel_add));
 
         mTilName = (TextInputLayout) findViewById(R.id.tilName);
         mEtName = (EditText) findViewById(R.id.etName);
@@ -65,13 +67,7 @@ public class AddChannelActivity extends AppCompatActivity implements View.OnClic
     }
 
     private boolean isValidUrl(String urlSting){
-        try {
-            URI uri = new URI(urlSting);
-            return true;
-        }
-        catch (URISyntaxException e) {
-            return false;
-        }
+        return URLUtil.isValidUrl(urlSting);
     }
 
     public static void start(Context context){

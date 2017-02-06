@@ -1,4 +1,4 @@
-package com.example.krafjufina.rssreader;
+package com.example.krafjufina.rssreader.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,16 +9,22 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
-import android.webkit.WebView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.krafjufina.rssreader.R;
 import com.example.krafjufina.rssreader.model.Post;
+import com.example.krafjufina.rssreader.tools.Http;
 
 public class PostActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final int LOAD_POST = 1;
-    private WebView mWebView;
+    public static final String BUNLDE_TITLE = "BUNLDE_TITLE";
+
+    private TextView mDescription;
     private Uri mPostUri;
     private Post mPost;
     @Override
@@ -28,22 +34,30 @@ public class PostActivity extends AppCompatActivity implements LoaderManager.Loa
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mPostUri = getIntent().getData();
-        mWebView = (WebView)findViewById(R.id.webView);
-        mWebView.getSettings().setJavaScriptEnabled(true);
+        String title = getIntent().getStringExtra(BUNLDE_TITLE);
+        if(!TextUtils.isEmpty(title)) getSupportActionBar().setTitle(title);
+
+        mDescription = (TextView)findViewById(R.id.tvDescription);
+
         getSupportLoaderManager().initLoader(LOAD_POST,null,this);
         getSupportLoaderManager().getLoader(LOAD_POST).forceLoad();
     }
 
-    public static void start(Context context,Uri uri){
+    public static void start(Context context,Uri uri,String title){
         Intent intent = new Intent(context,PostActivity.class);
         intent.setData(uri);
+        intent.putExtra(BUNLDE_TITLE,title);
         context.startActivity(intent);
     }
     private void setData(Post post){
         mPost = post;
         getSupportActionBar().setTitle(mPost.title);
+        mDescription.setText(Http.fromHtml(mDescription,post.description));
+        mDescription.setMovementMethod(LinkMovementMethod.getInstance());
+
 
     }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

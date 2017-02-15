@@ -13,7 +13,7 @@ import com.example.krafjufina.rssreader.tools.RLog;
 
 public class RssApplication extends Application {
     public static final String SHARED_CONFIG = "SHARED_CONFIG";
-    public static final String SHARED_FIRST_LOAD = "SHARED_CONFIG";
+    public static final String SHARED_FIRST_LOAD = "SHARED_FIRST_LOAD";
     public static final String TAG = "RssApplication";
 
 

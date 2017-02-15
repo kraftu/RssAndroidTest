@@ -38,6 +38,11 @@ abstract public class RssParserTask extends AsyncTask<String, Integer, String> {
             RLog.d(TAG,"StartLoad:"+mUrl);
             if(isCancelled()) throw new IOException("CancelTask");
             Document rssDocument = Jsoup.connect(mUrl).ignoreContentType(true).parser(Parser.xmlParser()).get();
+
+            if(!isRssUrl(rssDocument)){
+              throw new IOException("We could not find a material Rss link:"+mUrl);
+            }
+
             Elements mChannels = rssDocument.select("channel");
             Elements mItems = rssDocument.select("item");
 
@@ -66,7 +71,7 @@ abstract public class RssParserTask extends AsyncTask<String, Integer, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         if (s.equals("success")) {
-            onSeccess(mChannel,mPosts);
+            onSeccess(mChannel, mPosts);
         } else if (s.equals("failure") && !isCancelled()) {
             onFailure(mError);
         }
@@ -114,6 +119,10 @@ abstract public class RssParserTask extends AsyncTask<String, Integer, String> {
         }
         channel.pubDate = DataUntil.getTimeInMs(pubDate);
         return channel;
+    }
+
+    public boolean isRssUrl(Document rssDocument){
+        return rssDocument!=null && rssDocument.select("rss").size() != 0;
     }
 
 }
